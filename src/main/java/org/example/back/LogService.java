@@ -1,12 +1,16 @@
-package org.example;
+package org.example.back;
+
+import java.util.Date;
+import java.util.HashMap;
 
 import static spark.Spark.*;
 
-public class SparkWebServer {
+public class LogService {
 
     public static void main(String... args){
         port(getPort());
-        get("hello", (req,res) -> "Hello Docker!");
+        staticFiles.location("/public");
+        get("string", (req,res) -> "Port " + getPort() );
     }
 
     private static int getPort() {

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> LAB04 - AREP </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>My app</h1>
+<form action="/string">
+    <label for="string">String:</label><br>
+    <input type="text" id="string" name="string" value="test"><br><br>
+    <input type="button" value="Submit" onclick="loadGetMsg()">
+</form>
+<div id="getrespmsg" class="card" style="display: none">
+</div>
+<table id="myTable" style="display: none">
+    <tr class="table-header">
+        <th>String</th>
+        <th>Date</th>
+    </tr>
+</table>
+
+<script>
+                    function loadGetMsg() {
+                              let nameVar = document.getElementById("string").value;
+                              let date = new Date().getDate();
+                              console.log(date);
+                              console.log(nameVar);
+
+                              const xhttp = new XMLHttpRequest();
+                              xhttp.onload = function() {
+                                        document.getElementById("getrespmsg").innerHTML = this.responseText;
+                              }
+                              xhttp.onloadend = function() {
+                                        if(xhttp.status == 404)
+                                        loadGetMsg();
+                              }
+                              xhttp.open("GET", "/string?value=" + nameVar + "&date=" + date);
+                              xhttp.send();
+                    }
+                    function buildTable(json){
+                              cleanElements([...document.getElementsByClassName("row")]);
+                              let table = document.getElementById("myTable");
+                              table.style.display = "";
+                              let row = `<tr class="row">
+                                                            <td>${json.string}</td>
+                                                            <td>${json.date}</td>
+                                                  </tr>`
+                              table.innerHTML += row;
+                    }
+
+                    function cleanElements(elements) {
+                              if(elements.length > 0) {
+                                        for(element of elements){
+                                                  element.remove();
+                                        };
+                              }
+                    }
+          </script>
+<script src=""></script>
+</body>
+</html>
