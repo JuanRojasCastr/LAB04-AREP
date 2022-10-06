@@ -8,10 +8,7 @@ body, .card{
           flex-direction: column;
 }
 .card{
-          width: 350px;
-          border-style: solid;
-          border-radius: 20px;
-          border-color: #009879;
+          width: 100px;
           margin-top: 20px;
           padding: 10px;
 }

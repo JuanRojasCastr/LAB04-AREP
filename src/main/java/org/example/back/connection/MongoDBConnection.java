@@ -9,6 +9,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.function.Consumer;
@@ -41,7 +43,11 @@ public class MongoDBConnection {
 
         Document myDocument = new Document();
         myDocument.put("text", item);
-        myDocument.put("date", new Date());
+        LocalDate dateObj = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = dateObj.format(formatter);
+
+        myDocument.put("date", date);
 
         this.mongoCollection.insertOne(myDocument);
         documents.add(myDocument.toJson());

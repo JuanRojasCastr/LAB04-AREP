@@ -11,9 +11,10 @@
 <form action="/string">
     <label for="string">String:</label><br>
     <input type="text" id="string" name="string" value="test"><br><br>
-    <input type="button" value="Submit" onclick="loadGetMsg()">
+    <input type="button" value="Submit" onclick="post()">
 </form>
-<div id="getrespmsg" class="card" style="display: none">
+<div id="getrespmsg" class="card">
+    <input type="button" value="Get" onclick="loadGetMsg()">
 </div>
 <table id="myTable" style="display: none">
     <tr class="table-header">
@@ -24,31 +25,40 @@
 
 <script>
                     function loadGetMsg() {
-                              let nameVar = document.getElementById("string").value;
-                              let date = new Date().getDate();
-                              console.log(date);
-                              console.log(nameVar);
-
                               const xhttp = new XMLHttpRequest();
                               xhttp.onload = function() {
-                                        document.getElementById("getrespmsg").innerHTML = this.responseText;
+                                        buildTable(this.responseText);
                               }
                               xhttp.onloadend = function() {
                                         if(xhttp.status == 404)
                                         loadGetMsg();
                               }
-                              xhttp.open("GET", "/string?value=" + nameVar + "&date=" + date);
+                              xhttp.open("GET", "/string");
                               xhttp.send();
+                    }
+                    function post() {
+                              let string = document.getElementById("string").value;
+                              const xhttp = new XMLHttpRequest();
+                              xhttp.onload = function () {
+                              alert("Post send");
+                              }
+                              xhttp.open("POST", "/string");
+                              xhttp.setRequestHeader("content-type", "text/plain")
+                              xhttp.send(string);
                     }
                     function buildTable(json){
                               cleanElements([...document.getElementsByClassName("row")]);
+                              console.log(JSON.parse(json));
+                              let data = JSON.parse(json);
                               let table = document.getElementById("myTable");
                               table.style.display = "";
-                              let row = `<tr class="row">
-                                                            <td>${json.string}</td>
-                                                            <td>${json.date}</td>
+                              data.forEach(element => {
+                                        let row = `<tr class="row">
+                                                            <td>${element.text}</td>
+                                                            <td>${element.date}</td>
                                                   </tr>`
-                              table.innerHTML += row;
+                                       table.innerHTML += row;
+                              });
                     }
 
                     function cleanElements(elements) {

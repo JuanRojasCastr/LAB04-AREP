@@ -2,25 +2,32 @@ version: '2'
 
 
 services:
-  back:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: back
-    ports:
-      - "35000:6000"
-    links:
-      - db
-
   front:
     build:
       context: .
       dockerfile: Dockerfile2
     container_name: front
+    depends_on:
+      - back
     ports:
-      - "80:6000"
+      - "80:8000"
     links:
       - back
+    networks:
+      - private
+
+
+  back:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "35000:6000"
+    links:
+      - db
+    networks:
+      - private
+
 
   db:
     image: mongo:3.6.1
@@ -29,7 +36,13 @@ services:
       - mongodb:/data/db
       - mongodb_config:/data/configdb
     command: mongod
+    networks:
+      - private
 
 volumes:
   mongodb:
   mongodb_config:
+
+networks:
+  private:
+    driver: bridge
