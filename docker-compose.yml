@@ -8,21 +8,47 @@ services:
       dockerfile: Dockerfile2
     container_name: front
     depends_on:
-      - back
+      - back1
+      - back2
+      - back3
     ports:
       - "80:8000"
     links:
-      - back
+      - back1
+      - back2
+      - back3
     networks:
       - private
 
 
-  back:
+  back1:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "35000:6000"
+      - "35000:8000"
+    links:
+      - db
+    networks:
+      - private
+
+  back2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "35001:8000"
+    links:
+      - db
+    networks:
+      - private
+
+  back3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "35002:8000"
     links:
       - db
     networks:

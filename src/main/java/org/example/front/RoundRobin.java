@@ -13,7 +13,7 @@ import static spark.Spark.*;
 
 public class RoundRobin {
     private static final String USER_AGENT = "Mozilla/5.0";
-    private static final String BASE_URL = "http://localhost:3500";
+    private static final String BASE_URL = "http://ec2-3-88-11-222.compute-1.amazonaws.com:3500";
     private static int roundRobinCount = 0;
 
     public static void main(String... args){
@@ -30,7 +30,8 @@ public class RoundRobin {
 
 
     public static String postResp(String str) throws IOException {
-        String url = BASE_URL + roundRobinCount + "/query";
+        String url = BASE_URL + getRoundRobinCount() + "/query";
+        roundRobinCount ++;
         System.out.println("post to " + url);
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -40,7 +41,6 @@ public class RoundRobin {
         con.setDoOutput(true);
 
         try(OutputStream os = con.getOutputStream()) {
-            System.out.println("conectado");
             byte[] input = str.getBytes("utf-8");
             os.write(input, 0, input.length);
         }
@@ -51,7 +51,6 @@ public class RoundRobin {
             while ((responseLine = br.readLine()) != null) {
                 response.append(responseLine.trim());
             }
-            System.out.println(response.toString());
             return response.toString();
         }
         catch (Exception e) {
@@ -61,14 +60,12 @@ public class RoundRobin {
     }
 
     public static String getResp() throws IOException {
-        System.out.println("Value");
-
-        URL obj = new URL(BASE_URL + "0" + "/query");
+        URL obj = new URL(BASE_URL + getRoundRobinCount() + "/query");
+        roundRobinCount ++;
         System.out.println(obj.toString());
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);
-        System.out.println("Resp Code: " + con.getResponseCode());
         int responseCode = con.getResponseCode();
         System.out.println("GET Response Code :: " + responseCode);
 
@@ -87,6 +84,11 @@ public class RoundRobin {
         } else {
             return "GET request not worked";
         }
+    }
+
+    private static int getRoundRobinCount() {
+        if (roundRobinCount > 2) roundRobinCount = 0;
+        return roundRobinCount;
     }
 
     private static int getPort() {

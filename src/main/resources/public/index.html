@@ -48,8 +48,8 @@
                     }
                     function buildTable(json){
                               cleanElements([...document.getElementsByClassName("row")]);
-                              console.log(JSON.parse(json));
                               let data = JSON.parse(json);
+                              console.log(data);
                               let table = document.getElementById("myTable");
                               table.style.display = "";
                               data.forEach(element => {

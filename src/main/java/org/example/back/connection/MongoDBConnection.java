@@ -1,10 +1,8 @@
 package org.example.back.connection;
 
 import com.mongodb.MongoClient;
-//import com.mongodb.MongoClientURI;
 import com.mongodb.MongoException;
 import com.mongodb.client.FindIterable;
-//import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
@@ -12,12 +10,12 @@ import org.bson.Document;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 import java.util.function.Consumer;
 
 
 public class MongoDBConnection {
-    private String url = "db";
+    private String url = "ec2-3-88-11-222.compute-1.amazonaws.com";
     private int port = 27017;
     private MongoClient mongoClient = null;
     private MongoDatabase mongoDatabase = null;
@@ -55,13 +53,14 @@ public class MongoDBConnection {
         return documents;
     }
 
-    public ArrayList<String> getAllItems() {
+    public List<String> getAllItems() {
         ArrayList<String> messages = new ArrayList<>();
 
         FindIterable<Document> result = this.mongoCollection.find();
 
         result.forEach((Consumer<? super Document>) document -> messages.add(document.toJson()));
-        return messages;
+
+        return messages.subList(Math.max(messages.size() - 10, 0), messages.size());
     }
 
 

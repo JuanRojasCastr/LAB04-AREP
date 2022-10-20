@@ -2,8 +2,7 @@ package org.example.back;
 
 import org.example.back.connection.MongoDBConnection;
 
-
-import java.util.ArrayList;
+import java.util.List;
 
 import static spark.Spark.*;
 
@@ -32,7 +31,7 @@ public class LogService {
 
         get("query", (req,res) -> {
             mongoConnection.createConnection();
-            ArrayList<String> messages = mongoConnection.getAllItems();
+            List<String> messages = mongoConnection.getAllItems();
             mongoConnection.closeConnection();
             return messages;
         } );
@@ -42,7 +41,7 @@ public class LogService {
             if(req.body()!=null){
                 mongoConnection.addItem(req.body());
             }
-            ArrayList<String> messages = mongoConnection.getAllItems();
+            List<String> messages = mongoConnection.getAllItems();
             mongoConnection.closeConnection();
             return messages;
         });
