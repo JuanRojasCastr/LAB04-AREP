@@ -77,6 +77,8 @@ Ahora conectados a la máquina virtual debemos usar los siguientes comandos para
 
 Como vemos es solo ingresar a la url base del proyecto:
 
+![](https://media.discordapp.net/attachments/584593411567517710/1032851101680144425/unknown.png)
+
 ![](https://media.discordapp.net/attachments/584593411567517710/1032849535485087744/unknown.png)
 
 ![](https://media.discordapp.net/attachments/584593411567517710/1032849711150923816/unknown.png)
