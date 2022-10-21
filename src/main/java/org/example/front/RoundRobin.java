@@ -13,7 +13,7 @@ import static spark.Spark.*;
 
 public class RoundRobin {
     private static final String USER_AGENT = "Mozilla/5.0";
-    private static final String BASE_URL = "http://ec2-3-88-11-222.compute-1.amazonaws.com:3500";
+    private static final String BASE_URL = "http://ec2-3-82-206-61.compute-1.amazonaws.com:3500";
     private static int roundRobinCount = 0;
 
     public static void main(String... args){

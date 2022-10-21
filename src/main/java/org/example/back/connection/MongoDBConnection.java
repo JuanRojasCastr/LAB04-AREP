@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 
 
 public class MongoDBConnection {
-    private String url = "ec2-3-88-11-222.compute-1.amazonaws.com";
+    private String url = "ec2-3-82-206-61.compute-1.amazonaws.com";
     private int port = 27017;
     private MongoClient mongoClient = null;
     private MongoDatabase mongoDatabase = null;
